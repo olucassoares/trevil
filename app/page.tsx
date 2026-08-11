@@ -10,6 +10,7 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { OperationBrief } from "../components/OperationBrief";
 import { TrevilMark } from "../components/TrevilMark";
+import { formatStoredDate } from "../lib/dates.mjs";
 import {
   CustomersWorkspace,
   EmptyChart,
@@ -29,6 +30,8 @@ import {
   type View,
 } from "../components/Workspaces";
 import { summarizeOperation } from "../lib/operations-view";
+
+const weekday = new Intl.DateTimeFormat("pt-BR", { weekday: "short" });
 
 export default function Home() {
   const [data, setData] = useState<Dashboard | null>(null);
@@ -153,14 +156,14 @@ export default function Home() {
 
             <section className="commerce-primary-grid">
               <article className="commerce-panel revenue-panel"><header><div><h2>Receita por dia</h2><p>Desempenho consolidado dos canais</p></div><span>Últimos 7 dias</span></header>
-                {chart ? <div className="sales-chart"><div className="chart-scale"><span>{currency(chart.max)}</span><span>{currency(chart.max / 2)}</span><span>R$ 0</span></div><div className="chart-canvas"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><defs><linearGradient id="salesFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#7657ff" stopOpacity=".3"/><stop offset="1" stopColor="#7657ff" stopOpacity="0"/></linearGradient></defs><polygon points={`0,100 ${chart.points} 100,100`} fill="url(#salesFill)"/><polyline points={chart.points} fill="none" stroke="#7657ff" strokeWidth="2.2" vectorEffect="non-scaling-stroke"/></svg><div className="chart-days">{data.trend.map((point) => <span key={point.day}>{new Intl.DateTimeFormat("pt-BR", { weekday: "short" }).format(new Date(`${point.day}T12:00:00`)).replace(".", "")}</span>)}</div></div></div> : <EmptyChart />}
+                {chart ? <div className="sales-chart"><div className="chart-scale"><span>{currency(chart.max)}</span><span>{currency(chart.max / 2)}</span><span>R$ 0</span></div><div className="chart-canvas"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><defs><linearGradient id="salesFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#7657ff" stopOpacity=".3"/><stop offset="1" stopColor="#7657ff" stopOpacity="0"/></linearGradient></defs><polygon points={`0,100 ${chart.points} 100,100`} fill="url(#salesFill)"/><polyline points={chart.points} fill="none" stroke="#7657ff" strokeWidth="2.2" vectorEffect="non-scaling-stroke"/></svg><div className="chart-days">{data.trend.map((point) => <span key={point.day}>{formatStoredDate(point.day, weekday).replace(".", "")}</span>)}</div></div></div> : <EmptyChart />}
               </article>
 
               <article className="commerce-panel channel-panel"><header><div><h2>Vendas por canal</h2><p>Participação na receita</p></div><BarChart3 size={17} /></header><div className="channel-list">{data.channels.map((channel, index) => { const share = (Number(channel.revenueCents) / Math.max(Number(data.summary.revenueCents), 1)) * 100; return <div key={channel.channel}><span className={`channel-icon channel-${index}`}><Store size={15} /></span><div><strong>{channelCopy[channel.channel]}</strong><small>{channel.orders} pedidos</small><i><span style={{ width: `${share}%` }} /></i></div><b>{share.toFixed(0)}%</b></div>; })}</div></article>
             </section>
 
             <section className="commerce-secondary-grid">
-              <article className="commerce-panel orders-panel"><header><div><h2>Pedidos recentes</h2><p>Atualizações mais recentes da operação</p></div><button onClick={() => openView("orders")}>Ver todos <ChevronRight size={14} /></button></header><div className="orders-table-wrap"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Status</th><th>Canal</th><th>Data</th><th>Total</th></tr></thead><tbody>{filteredOrders.slice(0, 6).map((order) => <tr key={order.id}><td><strong>{order.number}</strong><small>{order.itemCount} {order.itemCount === 1 ? "item" : "itens"}</small></td><td><span className="customer"><i>{initials(order.customer)}</i>{order.customer}</span></td><td><span className={`order-status status-${order.status}`}>{statusCopy[order.status]}</span></td><td>{channelCopy[order.channel]}</td><td>{date.format(new Date(order.createdAt.replace(" ", "T") + "Z"))}</td><td><strong>{currency(order.totalCents)}</strong></td></tr>)}</tbody></table>{filteredOrders.length === 0 && <div className="empty-search">Nenhum pedido encontrado para “{query}”.</div>}</div></article>
+              <article className="commerce-panel orders-panel"><header><div><h2>Pedidos recentes</h2><p>Atualizações mais recentes da operação</p></div><button onClick={() => openView("orders")}>Ver todos <ChevronRight size={14} /></button></header><div className="orders-table-wrap"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Status</th><th>Canal</th><th>Data</th><th>Total</th></tr></thead><tbody>{filteredOrders.slice(0, 6).map((order) => <tr key={order.id}><td><strong>{order.number}</strong><small>{order.itemCount} {order.itemCount === 1 ? "item" : "itens"}</small></td><td><span className="customer"><i>{initials(order.customer)}</i>{order.customer}</span></td><td><span className={`order-status status-${order.status}`}>{statusCopy[order.status]}</span></td><td>{channelCopy[order.channel]}</td><td>{formatStoredDate(order.createdAt, date)}</td><td><strong>{currency(order.totalCents)}</strong></td></tr>)}</tbody></table>{filteredOrders.length === 0 && <div className="empty-search">Nenhum pedido encontrado para “{query}”.</div>}</div></article>
 
               <aside className="side-stack">
                 <article className="commerce-panel stock-panel"><header><div><h2>Alerta de estoque</h2><p>Produtos que precisam de atenção</p></div><span>{lowStock.length}</span></header><div>{lowStock.slice(0, 3).map((product) => { const available = product.stock - product.reservedStock; return <button key={product.id}><span><Box size={16} /></span><div><strong>{product.name}</strong><small>{product.sku}</small></div><b>{available}<small> disp.</small></b><ChevronRight size={14} /></button>; })}</div></article>
