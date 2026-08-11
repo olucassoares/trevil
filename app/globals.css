@@ -43,3 +43,16 @@ html,body{background:radial-gradient(circle at 100% 0,#fff0e7 0,transparent 24%)
 .operation-brief>button{align-self:stretch;border:0;background:#fff7f2;color:#b94313;padding:0 18px;font-size:11px;font-weight:700;cursor:pointer}
 .operation-brief>button:hover{background:#ffeadf}
 @media(max-width:900px){.operation-brief{grid-template-columns:1fr}.operation-brief>div{border-right:0;border-bottom:1px solid var(--line)}.operation-brief>button{min-height:44px}}
+
+/* Legibility, deliveries and route states */
+.commerce-sidebar nav p,.commerce-brand small,.commerce-user small,.metric-card header small,.metric-card header em,.metric-card footer small,.channel-list small,.commerce-panel header p,th,td small,.workspace-kpis small,.catalog-grid>article>small,.catalog-grid footer small,.customer-grid p,.customer-grid span,.inventory-list p,.inventory-list b small{font-size:11px}
+.commerce-sidebar nav button,.upgrade-card p,.upgrade-card small,.global-search input,.sync-status,.metric-card footer span,.channel-list,.commerce-panel h2,th,td,.control-list li{font-size:12px}
+.welcome-row>div>span{font-size:15px}.metric-card header small{letter-spacing:.03em}
+.delivery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:18px}
+.delivery-grid article{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:12px;padding:15px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.delivery-grid h3,.delivery-grid p{margin:0}.delivery-grid h3{font-size:14px;margin:4px 0}.delivery-grid p,.delivery-grid small{font-size:11px;color:var(--muted)}
+.delivery-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:10px;background:#fff0e8;color:#cf561f}
+.route-state{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg);color:var(--ink)}
+.route-state>div{max-width:520px;padding:30px;border:1px solid var(--line);border-radius:16px;background:#fff;text-align:center;box-shadow:0 16px 40px #17203318}
+.route-state h1{margin:0 0 10px}.route-state p{color:var(--muted);line-height:1.6}.route-state a{display:inline-flex;margin-top:12px;padding:10px 14px;border-radius:9px;background:#ef6a2f;color:#fff;text-decoration:none;font-weight:800}
+@media(max-width:720px){.delivery-grid{grid-template-columns:1fr}.delivery-grid article{grid-template-columns:38px minmax(0,1fr)}.delivery-grid article>b{grid-column:2}}

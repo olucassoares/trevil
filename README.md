@@ -16,7 +16,7 @@ SaaS full stack de operações que centraliza pedidos, catálogo, clientes, esto
 
 1. Analise receita, pedidos em andamento, canais e alertas de reposição.
 2. Avance um pedido pelo workflow e observe a atualização do estoque.
-3. Cadastre produtos e clientes, registre uma reposição e abra os relatórios.
+3. Cadastre produtos e clientes, registre uma reposição e acompanhe os pedidos na área de entregas.
 
 O principal ponto técnico é a integridade operacional: workflow de estados, reserva e baixa de estoque, RBAC e trilha de auditoria.
 
@@ -37,6 +37,8 @@ Operações pequenas costumam separar pedidos, estoque e clientes em planilhas d
 - Catálogo com SKU único, preço, categoria, status e ponto de reposição.
 - Clientes segmentados como novo, recorrente ou VIP.
 - Ledger de reservas, liberações, vendas e reposições.
+- Área de entregas com pedidos em trânsito, concluídos e pesquisa operacional.
+- Notificações contextuais para pendências de reposição.
 - Relatórios de 7, 30 e 90 dias calculados no servidor.
 - Exportações CSV de pedidos, produtos, clientes e movimentações.
 - RBAC com funções Administrador, Gestor e Leitor.
@@ -130,7 +132,7 @@ npm run db:generate
 ## Qualidade e segurança
 
 - 15 testes automatizados para workflow, analytics, RBAC e CSV.
-- Jornada de navegador para criação de pedido e reserva de estoque.
+- Jornada de navegador para criação de pedido e reserva de estoque, executada contra PostgreSQL temporário no CI.
 - Build de produção validado para a Vercel.
 - Operações de escrita protegidas no servidor.
 - Prepared statements em todas as consultas com entrada dinâmica.
