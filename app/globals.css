@@ -33,3 +33,13 @@ html,body{background:radial-gradient(circle at 100% 0,#fff0e7 0,transparent 24%)
 .commerce-modal-backdrop{background:#111827aa}
 .date-chip{border-left:3px solid #f06a2c}
 .metric-card,.commerce-panel,.workspace-kpis article,.customer-grid article,.inventory-list article,.settings-grid>section{box-shadow:0 4px 16px #1118270a}
+.operation-brief{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;align-items:center;gap:0;margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 4px 16px #1118270a;overflow:hidden}
+.operation-brief>div{min-width:0;display:flex;align-items:center;gap:10px;padding:14px 16px;border-right:1px solid var(--line)}
+.operation-brief>div>span{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border-radius:9px;background:#fff0e8;color:#d4551d}
+.operation-brief p{display:grid;min-width:0;gap:3px;margin:0}
+.operation-brief small{font-size:9px;line-height:1.2;letter-spacing:.08em;color:var(--muted)}
+.operation-brief strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+.operation-brief .brief-alert strong{color:#bd4312}
+.operation-brief>button{align-self:stretch;border:0;background:#fff7f2;color:#b94313;padding:0 18px;font-size:11px;font-weight:700;cursor:pointer}
+.operation-brief>button:hover{background:#ffeadf}
+@media(max-width:900px){.operation-brief{grid-template-columns:1fr}.operation-brief>div{border-right:0;border-bottom:1px solid var(--line)}.operation-brief>button{min-height:44px}}
