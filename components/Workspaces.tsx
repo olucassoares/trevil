@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Box, CheckCircle2, PackageCheck, Plus, RotateCcw, Save, ShoppingCart, Users, X } from "lucide-react";
+import { BarChart3, Box, CheckCircle2, PackageCheck, Plus, RotateCcw, Save, ShoppingCart, X } from "lucide-react";
 import { type FormEvent, useEffect, useState } from "react";
 
 export type Order={id:number;number:string;customerId:number;status:string;paymentStatus:string;totalCents:number;channel:string;createdAt:string;customer:string;itemCount:number};

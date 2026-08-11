@@ -1,10 +1,24 @@
 # Trevil
 
-SaaS full stack de operações para pequenos e-commerces. Centraliza pedidos, catálogo, clientes, estoque, indicadores e auditoria em uma interface responsiva.
+> Central operacional para pedidos, catálogo, clientes e estoque de pequenos e-commerces.
 
-**Aplicação em produção:** [Abrir Trevil](https://trevil.vercel.app)
+[![Aplicação](https://img.shields.io/badge/demo-online-6d52f7?style=flat-square)](https://trevil.vercel.app)
+[![CI](https://img.shields.io/github/actions/workflow/status/olucassoares/trevil/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/olucassoares/trevil/actions/workflows/ci.yml)
+![Next.js](https://img.shields.io/badge/Next.js-16-111111?style=flat-square)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?style=flat-square)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-336791?style=flat-square)
 
-![Central de pedidos do Trevil](public/screenshots/dashboard.jpg)
+SaaS full stack de operações que centraliza pedidos, catálogo, clientes, estoque, indicadores e auditoria em uma interface responsiva.
+
+**[Abrir aplicação](https://trevil.vercel.app)** · **[Arquitetura](docs/ARCHITECTURE.md)** · **[API](docs/API.md)** · **[Segurança](docs/SECURITY.md)**
+
+## Avaliação rápida
+
+1. Analise receita, pedidos em andamento, canais e alertas de reposição.
+2. Avance um pedido pelo workflow e observe a atualização do estoque.
+3. Cadastre produtos e clientes, registre uma reposição e abra os relatórios.
+
+O principal ponto técnico é a integridade operacional: workflow de estados, reserva e baixa de estoque, RBAC e trilha de auditoria.
 
 ## Contexto do produto
 
