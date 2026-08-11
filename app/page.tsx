@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  ArrowDownRight, BarChart3, Bell, Box, ChevronRight,
+  ArrowDownRight, BarChart3, Bell, Box, CheckCircle2, ChevronRight,
   CircleDollarSign, CreditCard, LayoutDashboard,
   Menu, PackageCheck,
   Search, Settings, ShoppingBag, ShoppingCart, Store, Truck,
@@ -13,6 +13,7 @@ import { TrevilMark } from "../components/TrevilMark";
 import { formatStoredDate } from "../lib/dates.mjs";
 import {
   CustomersWorkspace,
+  DeliveriesWorkspace,
   EmptyChart,
   InventoryWorkspace,
   OrdersWorkspace,
@@ -39,6 +40,7 @@ export default function Home() {
   const [error, setError] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [topNotice, setTopNotice] = useState("");
   const [view, setView] = useState<View>("overview");
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -103,6 +105,7 @@ export default function Home() {
     products: { crumb: "PRODUTOS", title: "Catálogo de produtos", subtitle: "Gerencie preços, categorias e disponibilidade comercial.", search: "Buscar produto, SKU ou categoria..." },
     customers: { crumb: "CLIENTES", title: "Relacionamento com clientes", subtitle: "Entenda recorrência, receita e segmentos da sua base.", search: "Buscar cliente, e-mail ou segmento..." },
     inventory: { crumb: "ESTOQUE", title: "Controle de estoque", subtitle: "Mantenha saldos confiáveis e rastreie cada movimentação.", search: "Buscar produto ou SKU..." },
+    deliveries: { crumb: "ENTREGAS", title: "Acompanhamento de entregas", subtitle: "Visualize pedidos em trânsito e entregas concluídas.", search: "Buscar entrega, pedido ou cliente..." },
     reports: { crumb: "RELATÓRIOS", title: "Desempenho comercial", subtitle: "Compare receita, pedidos, canais e estoque por período.", search: "Os relatórios usam todos os dados..." },
     settings: { crumb: "CONFIGURAÇÕES", title: "Acesso e permissões", subtitle: "Controle responsabilidades com autorização por função.", search: "Configurações de segurança..." },
   };
@@ -120,7 +123,7 @@ export default function Home() {
           <button className={view === "customers" ? "active" : ""} onClick={() => openView("customers")}><Users size={17} /> Clientes</button>
           <p>GESTÃO</p>
           <button className={view === "inventory" ? "active" : ""} onClick={() => openView("inventory")}><PackageCheck size={17} /> Estoque <em>{lowStock.length}</em></button>
-          <button><Truck size={17} /> Entregas</button>
+          <button className={view === "deliveries" ? "active" : ""} onClick={() => openView("deliveries")}><Truck size={17} /> Entregas</button>
           <button className={view === "reports" ? "active" : ""} onClick={() => openView("reports")}><BarChart3 size={17} /> Relatórios</button>
           <p>SISTEMA</p>
           <button className={view === "settings" ? "active" : ""} onClick={() => openView("settings")}><Settings size={17} /> Configurações</button>
@@ -135,7 +138,7 @@ export default function Home() {
         <header className="commerce-topbar">
           <button className="mobile-trigger" aria-label="Abrir menu" onClick={() => setMenuOpen(true)}><Menu size={18} /></button>
           <label className="global-search"><Search size={16} /><input ref={searchRef} aria-label="Busca global" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={viewCopy[view].search} /><kbd>⌘ K</kbd></label>
-          <div className="top-actions"><span className="sync-status"><i /> Atualizado nesta sessão</span><button aria-label="Notificações"><Bell size={17} /><i /></button><div className="avatar">LS</div></div>
+          <div className="top-actions"><span className="sync-status"><i /> Atualizado nesta sessão</span><button aria-label="Notificações" onClick={() => setTopNotice(lowStock.length ? `${lowStock.length} ${lowStock.length === 1 ? "produto precisa" : "produtos precisam"} de reposição.` : "Nenhuma pendência crítica nesta sessão.")}><Bell size={17} /><i /></button><div className="avatar">LS</div></div>
         </header>
 
         <div className="commerce-content" id="commerce-content">
@@ -175,10 +178,12 @@ export default function Home() {
           {data && view === "products" && <ProductsWorkspace data={data} query={query} refresh={loadData} />}
           {data && view === "customers" && <CustomersWorkspace data={data} query={query} refresh={loadData} />}
           {data && view === "inventory" && <InventoryWorkspace data={data} query={query} refresh={loadData} />}
+          {data && view === "deliveries" && <DeliveriesWorkspace data={data} query={query} />}
           {view === "reports" && <ReportsWorkspace />}
           {view === "settings" && <SettingsWorkspace session={session} />}
         </div>
       </section>
+      {topNotice && <div className="commerce-toast" role="status"><CheckCircle2 size={15}/>{topNotice}<button onClick={() => setTopNotice("")} aria-label="Fechar"><X size={13}/></button></div>}
     </main>
   );
 }
