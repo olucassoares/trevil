@@ -2,6 +2,8 @@
 
 SaaS full stack de operações para pequenos e-commerces. Centraliza pedidos, catálogo, clientes, estoque, indicadores e auditoria em uma interface responsiva.
 
+**Aplicação em produção:** [Abrir Trevil](https://trevil.vercel.app)
+
 ![Central de pedidos do Trevil](public/screenshots/dashboard.jpg)
 
 ## Contexto do produto
